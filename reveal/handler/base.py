@@ -13,3 +13,8 @@ class Base(DataHandler):
             except UnicodeEncodeError:
                 return None
         return data if len(data) % self.chklen == 0 else None
+
+    def encode(self, data):
+        if isinstance(data, str):
+            return data.encode("utf8")
+        return data
