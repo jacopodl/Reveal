@@ -2,7 +2,7 @@ import json
 import re
 from base64 import b64decode, b64encode
 
-from reveal.handler.datahandler import DataHandler
+from reveal.handler.datahandler import DataHandler, EncodeError
 
 
 class Jwt(DataHandler):
@@ -22,11 +22,14 @@ class Jwt(DataHandler):
         return "{\"Header\":%s, \"Payload\":%s, \"Signature\":\"%s\"}" % (header, payload, signature)
 
     def encode(self, data):
-        jwt = json.loads(data)
-        header = Jwt.__to_url_base64(b64encode(json.dumps(jwt["Header"]).encode("ascii")).decode("utf8"))
-        payload = Jwt.__to_url_base64(b64encode(json.dumps(jwt["Payload"]).encode("ascii")).decode("utf8"))
-        signature = Jwt.__to_url_base64(b64encode(json.dumps(jwt["Signature"]).encode("ascii")).decode("utf8"))
-        return "%s.%s.%s" % (header, payload, signature)
+        try:
+            jwt = json.loads(data)
+            header = Jwt.__to_url_base64(b64encode(json.dumps(jwt["Header"]).encode("ascii")).decode("utf8"))
+            payload = Jwt.__to_url_base64(b64encode(json.dumps(jwt["Payload"]).encode("ascii")).decode("utf8"))
+            signature = Jwt.__to_url_base64(b64encode(json.dumps(jwt["Signature"]).encode("ascii")).decode("utf8"))
+            return "%s.%s.%s" % (header, payload, signature)
+        except json.JSONDecodeError:
+            raise EncodeError("unable to encode JWT token, invalid input format")
 
     @staticmethod
     def __to_std_base64(data):

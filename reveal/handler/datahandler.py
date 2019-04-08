@@ -1,3 +1,7 @@
+class EncodeError(Exception):
+    pass
+
+
 class DataHandler:
     def __init__(self, name, desc):
         self.name = name

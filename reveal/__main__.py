@@ -1,7 +1,9 @@
 import argparse
+import sys
 
 from reveal.decoder import DataTransformation
 from reveal.handler import B32, B64, HexEnc, Num2Char, UrlEncode, Jwt
+from reveal.handler.datahandler import EncodeError
 
 __version__ = "1.0.0"
 
@@ -61,7 +63,11 @@ def main():
         print()
 
     if args.encode is not None:
-        print(dt.encode(args.string, args.encode.split(",")), end="")
+        try:
+            print(dt.encode(args.string, args.encode.split(",")), end="")
+        except (NameError, EncodeError) as e:
+            sys.stderr.write(e.args[0])
+            return -1
         return 0
 
     print_result(dt.decode(args.string, args.limit), not args.quiet)
