@@ -29,9 +29,11 @@ def print_result(nodes, show_path=True):
             return
 
         if show_path:
-            res = "%s = %s" % (" -> ".join(path), node.data)
-            print(res)
-            print("Encode with: %s" % ",".join(path[::-1]))
+            if path:
+                print("%s = %s" % (" -> ".join(path), node.data))
+                print("Encode with: %s" % ",".join(path[::-1]))
+            else:
+                print("identity = %s" % node.data)
         else:
             print(node.data, end="\r\n\r\n")
 
@@ -43,8 +45,14 @@ def main():
     parser.add_argument("--encode", help="Encode string with selected encoders", type=str, metavar="<enc1,enc2,...>")
     parser.add_argument("--limit", help="Maximum deep of decoding recursion", type=int, default=24)
     parser.add_argument("--quiet", help="Print output(s) ONLY.", action="store_true")
-    parser.add_argument("string", help="input string")
+    parser.add_argument("string", help="input string", nargs="?")
     args = parser.parse_args()
+
+    if args.string is None:
+        if sys.stdin.isatty():
+            parser.print_usage()
+            return -1
+        args.string = sys.stdin.read().strip()
 
     dt = DataTransformation()
     dt.add_handler(B32())
