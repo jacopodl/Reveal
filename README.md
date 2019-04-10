@@ -1,6 +1,14 @@
 # Reveal #
 This is a experimental tool to recursive detect and decode encoded strings, it's also can encode strings recursively.
 
+## Installation
+Reveal package can be installed through following procedure:
+
+    $ git clone https://github.com/jacopodl/reveal
+    $ cd reveal
+    $ python setup.py sdist
+    $ pip install dist/reveal-%version%.tar.gz
+    
 ## Usage ##
 Let's take this encoded string:
 
