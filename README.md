@@ -6,8 +6,7 @@ Reveal package can be installed through following procedure:
 
     $ git clone https://github.com/jacopodl/reveal
     $ cd reveal
-    $ python setup.py sdist
-    $ pip install dist/reveal-%version%.tar.gz
+    $ python setup.py install
     
 ## Usage ##
 Let's take this encoded string:
