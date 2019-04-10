@@ -1,3 +1,7 @@
+![](https://img.shields.io/badge/Language-Python3-orange.svg)
+![](https://img.shields.io/badge/version-1.0.0-green.svg)
+![](https://img.shields.io/badge/License-GPL3-blue.svg)
+
 # Reveal #
 This is a experimental tool to recursive detect and decode encoded strings, it's also can encode strings recursively.
 
